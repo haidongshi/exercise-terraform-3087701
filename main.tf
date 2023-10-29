@@ -22,3 +22,42 @@ resource "aws_instance" "blog" {
     Name = "HelloWorld"
   }
 }
+
+resource "aws_security_goup" "blog" {
+  name        = "blog"
+  description = "Allow http and https in. Allow everyting out"
+
+  vpc_security_group_ids = [aws_security_goup.blog.id]
+
+  vpc_id = data.aws_vpc.default.id
+}
+
+resource "aws_security_goup_rule" "blog_http_in" {
+  type        = "ingress"
+  from_port   = 80
+  to_port     = 80
+  protocal    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+
+  security_goup_id = aws_security_goup.blog.id
+}
+
+resource "aws_security_goup_rule" "blog_https_in" {
+  type        = "ingress"
+  from_port   = 443
+  to_port     = 443
+  protocal    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+
+  security_goup_id = aws_security_goup.blog.id
+}
+
+resource "aws_security_goup_rule" "blog_everything_out" {
+  type        = "egress"
+  from_port   = 0
+  to_port     = 0
+  protocal    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+
+  security_goup_id = aws_security_goup.blog.id
+}
