@@ -27,7 +27,7 @@ resource "aws_security_group" "blog" {
   name        = "blog"
   description = "Allow http and https in. Allow everyting out"
 
-  vpc_security_group_ids = [aws_security_goup.blog.id]
+  vpc_security_group_ids = [aws_security_group.blog.id]
 
   vpc_id = data.aws_vpc.default.id
 }
@@ -39,7 +39,7 @@ resource "aws_security_group_rule" "blog_http_in" {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_goup_id = aws_security_goup.blog.id
+  security_group_id = aws_security_group.blog.id
 }
 
 resource "aws_security_group_rule" "blog_https_in" {
@@ -49,7 +49,7 @@ resource "aws_security_group_rule" "blog_https_in" {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_goup_id = aws_security_goup.blog.id
+  security_group_id = aws_security_group.blog.id
 }
 
 resource "aws_security_group_rule" "blog_everything_out" {
@@ -59,5 +59,5 @@ resource "aws_security_group_rule" "blog_everything_out" {
   protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_goup_id = aws_security_goup.blog.id
+  security_group_id = aws_security_group.blog.id
 }
